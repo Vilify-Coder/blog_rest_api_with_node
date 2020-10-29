@@ -1,0 +1,19 @@
+{
+  "name": "blogrestapi",
+  "version": "1.0.0",
+  "description": "Rest Api For Blog Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node index",
+    "dev":"nodemon index"
+
+  },
+  "author": "Nirmal Rathaur",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.10.11",
+    "nodemon": "^2.0.6"
+  }
+}
