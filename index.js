@@ -1,11 +1,11 @@
 const express=require("express");
 const mongoose=require("mongoose");
 const { use } = require("./routes/user");
-const Port=process.env.Port||5000;
+const Port=process.env.PORT||5000;
 const app=express();
 
 
-mongoose.connect('mongodb://localhost:27017/myapp',
+mongoose.connect('mongodb+srv://Nirmal:Example@vilify.com@cluster0.hxlnk.mongodb.net/myapp',
  {
      useNewUrlParser: true,
      useCreateIndex:true,

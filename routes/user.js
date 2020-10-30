@@ -1,8 +1,12 @@
 const express=require("express");
 const User=require("../models/users.model");
-
-
+const config=require("../config");
+const jwt=require("jsonwebtoken");
 const router=express.Router();
+const middleware=require("../middleware");
+
+
+
 
 router.route("/register").post((req,res)=>{
     console.log("Inside the register...");
@@ -24,7 +28,7 @@ router.route("/register").post((req,res)=>{
 
 });
 
-router.route("/update/:username").patch((req,res)=>{
+router.route("/update/:username").patch(middleware.checkToken,(req,res)=>{
     User.findOneAndUpdate(
         {
             username:req.params.username
@@ -48,7 +52,7 @@ router.route("/update/:username").patch((req,res)=>{
     );
 
 });
-router.route("/delete/:username").delete((req,res)=>{
+router.route("/delete/:username").delete(middleware.checkToken,(req,res)=>{
     User.findOneAndDelete(
         {
             username:req.params.username
@@ -68,7 +72,7 @@ router.route("/delete/:username").delete((req,res)=>{
     )
 });
 
-router.route("/:username").get((req,res)=>{
+router.route("/:username").get(middleware.checkToken,(req,res)=>{
     User.findOne({
         username:req.params.username
     },
@@ -77,7 +81,7 @@ router.route("/:username").get((req,res)=>{
             return res.status(500).json({msg :err});
         }
         const msg={
-            msg:"Password updated!",
+            // msg:"Password updated!",
             username:req.params.username,
             data:result
         }
@@ -100,7 +104,17 @@ router.route("/login").post((req,res)=>{
         }
         if(result.password==req.body.password){
             //TODO send jwt token
-            return res.json("ok");
+            let token=jwt.sign(
+                {
+                username:req.body.username
+                },
+                config.key,
+                {expiresIn:"24h"}
+            );
+            return res.json({
+                token:token,
+                "msg":"Success"
+            });
         }
         return res.status(403).json("password not correct");
 
