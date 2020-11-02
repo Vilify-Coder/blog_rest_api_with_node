@@ -120,4 +120,26 @@ router.route("/login").post((req,res)=>{
 
     })
     });
-module.exports=router;
+
+router.route("/checkUsername/:username").get((req,res)=>{
+    User.findOne({
+        username:req.params.username
+    },
+    (err,result)=>{
+        if(err){
+            return res.status(500).json({msg :err});
+        }
+        if(result!==null){
+            return res.json({
+                Status:true,
+            });
+        }
+        return res.json({
+            Status:false,
+        });
+
+    }
+    )
+})
+
+    module.exports=router;
