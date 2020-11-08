@@ -109,7 +109,6 @@ router.route("/login").post((req,res)=>{
                 username:req.body.username
                 },
                 config.key,
-                {expiresIn:"24h"}
             );
             return res.json({
                 token:token,
